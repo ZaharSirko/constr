@@ -1,0 +1,44 @@
+</html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title th:text = "${title}"/> 
+</head>
+<body>
+  <header th:insert="~{blocks/header::header}"></header>
+  <main>
+    <div class="container mt-5">
+        <h1>User Registration</h1>
+        <form th:action="@{/sign-in}" method="post">
+            <div class="mb-3">
+                <label for="nameUser" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="nameUser" name="nameUser" required>
+            </div>
+            <div class="mb-3">
+                <label for="secondName" class="form-label">Second Name:</label>
+                <input type="text" class="form-control" id="secondName" name="secondName" required>
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Phone Number:</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="login" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="login" name="login" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</main>
+  <footer th:insert="~{blocks/footer::footer}"></footer>
+
+</body>
+</html>

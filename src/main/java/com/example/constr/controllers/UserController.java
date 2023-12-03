@@ -1,7 +1,12 @@
 package com.example.constr.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.constr.model.User;
 import com.example.constr.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
+
 
 @Controller
 public class UserController {
@@ -23,7 +32,10 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    // private boolean isLoggedIn() {
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    //     return authentication != null  && authentication.isAuthenticated();
+    // }
 
     @GetMapping("/sign-in")
     public String registration(Model model) {
@@ -59,16 +71,22 @@ public class UserController {
                             @RequestParam("password") String password,
                             Model model) {
         try {
-            User user = userService.loginUser(login, password);
-            model.addAttribute("loggedInUser", user);
+
             return "redirect:/tour"; 
         } catch (Exception e) {
             model.addAttribute("loginError", e.getMessage()); 
             return "log-in"; 
         }
     }
-    // @ModelAttribute("isLoggedIn")
-    // public boolean isLoggedIn() {
-    //     return userService.isLoggedIn(); 
-    // }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request,response, auth);
+        }
+        return "redirect:/log-in";
     }
+}
+
+    

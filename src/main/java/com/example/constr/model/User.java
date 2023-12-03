@@ -1,18 +1,29 @@
 package com.example.constr.model;
 
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
+
+import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @SequenceGenerator(
         name = "user_sequence",
@@ -28,7 +39,7 @@ public class User {
 
     @NotNull
     @Column(name = "user_name")
-    private String nameUser;
+    private String userName;
 
     @NotNull
     @Column(name = "user_second_name")
@@ -43,11 +54,11 @@ public class User {
     private String password;
 
     @NotNull
-    @Column(name = "user_login")
-    private String login;
-
-    @Column(name = "users_role")
-    private String role;
+    @Column(name = "user_first_name")
+    private String firstName;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @NotNull
     @Column(name = "user_email")
@@ -55,6 +66,48 @@ public class User {
 
     @Column(name = "user_currency")
     private float currency;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public int getId() {
         return id;
@@ -64,12 +117,13 @@ public class User {
         this.id = id;
     }
 
-    public String getNameUser() {
-        return nameUser;
+    @Override
+    public String getUsername() {
+        return userName;
     }
 
-    public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
+    public void setUsername(String userName) {
+        this.userName = userName;
     }
 
     public String getSecondName() {
@@ -88,28 +142,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
@@ -127,7 +165,6 @@ public class User {
     public void setCurrency(float currency) {
         this.currency = currency;
     }
-
 
 
 }

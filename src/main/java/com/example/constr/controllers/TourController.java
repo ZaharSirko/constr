@@ -24,7 +24,7 @@ public class TourController {
         return "tour"; 
     }
 
-    @GetMapping("/name/{tourName}")
+    @GetMapping("/{tourName}")
     public List<Tour> getToursByTourName(@PathVariable String tourName) {
         return tourService.getToursByTourName(tourName);
     }

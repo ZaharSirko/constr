@@ -2,31 +2,66 @@ package com.example.constr.service;
 
 import org.springframework.stereotype.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.core.Authentication;
-// import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.example.constr.model.Role;
 import com.example.constr.model.User;
+import com.example.constr.repo.RoleRepository;
 import com.example.constr.repo.UserRepository;
 
-@Service
-public class UserService  {
-    private final UserRepository userRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
+@Service
+public class UserService implements UserDetailsService  {
+    @PersistenceContext
+    private EntityManager em;
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
+    @Autowired
+    @Lazy
+    AuthenticationManager authenticationManager;
+
+    @Bean
+   public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+}
+
+
     public boolean saveUser(User user) {
-        User userFromDB = userRepository.findByUserLogin(user.getLogin());
+         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
             return false;
         }
 
-        user.setRole("ROLE_USER");
+        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        user.setPassword(encoder().encode(user.getPassword()));
         userRepository.save(user);
         return true;
+    }
+
+    public User findUserById(Long userId) {
+        Optional<User> userFromDb = userRepository.findById(userId);
+        return userFromDb.orElse(new User());
     }
 
     public boolean deleteUser(Long userId) {
@@ -37,19 +72,22 @@ public class UserService  {
         return false;
     }
 
-    public User loginUser(String login, String password) throws Exception {
-        User user = userRepository.findByUserLogin(login);
-        
-        if (user == null || !user.getPassword().equals(password)) {
-            throw new Exception("Invalid login credentials");
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
         }
-        
+
         return user;
     }
 
-    // public boolean isLoggedIn() {
-    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    //     return authentication != null && authentication.isAuthenticated();
-    // }
-
+    public List<User> usergtList(Long idMin) {
+        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
+                .setParameter("paramId", idMin).getResultList();
+    }
+    public List<User> allUsers() {
+        return userRepository.findAll();
+    }
 }

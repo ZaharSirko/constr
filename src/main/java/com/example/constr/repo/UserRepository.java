@@ -9,6 +9,8 @@ import com.example.constr.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("SELECT u FROM User u WHERE u.login = :login")
-    User findByUserLogin(@Param("login") String login);
+    @Query("SELECT u FROM User u WHERE u.userName = :userName")
+    User findByUsername(@Param("userName") String username);
+    @Query(value = "SELECT nextval(pg_get_serial_sequence('user', 'id'))", nativeQuery = true)
+    Long getNextId();
 }

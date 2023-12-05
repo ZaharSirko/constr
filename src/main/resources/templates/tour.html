@@ -6,7 +6,14 @@
 <body>
   <header th:insert="~{blocks/header::header}"></header>
   <main>
- <a>Asdas</a>
+    <div sec:authorize="isAuthenticated()">
+      Text visible only to authenticated users.
+      <hr class="dropdown-divider">
+      Authenticated username:
+<div sec:authentication="name"></div>
+Authenticated user roles:
+<div sec:authentication="principal.authorities"></div>
+  </div>
   </main>
   <footer th:insert="~{blocks/footer::footer}"></footer>
 

@@ -1,44 +1,41 @@
-</html>
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head> 
-    <title th:text = "${title}"/> 
+    <meta charset="UTF-8">
+    <title th:text="${title}"/> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-  <header th:insert="~{blocks/header::header}"></header>
-  <main>
     <div class="container mt-5">
         <h1>User Registration</h1>
         <form th:action="@{/sign-in}" method="post">
-            <div class="mb-3">
-                <label for="firstName" class="form-label">Name:</label>
+            <div class="form-group">
+                <label for="firstName">Name:</label>
                 <input type="text" class="form-control" id="firstName" name="firstName" required>
             </div>
-            <div class="mb-3">
-                <label for="secondName" class="form-label">Second Name:</label>
+            <div class="form-group">
+                <label for="secondName">Second Name:</label>
                 <input type="text" class="form-control" id="secondName" name="secondName" required>
             </div>
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
                 <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
+            <div class="form-group">
+                <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username:</label>
+            <div class="form-group">
+                <label for="username">Username:</label>
                 <input type="text" class="form-control" id="username" name="username" required>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password:</label>
+            <div class="form-group">
+                <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
+        <a href="/" class="btn btn-secondary btn-block mt-3">Back to Home</a>
     </div>
-</main>
-  <footer th:insert="~{blocks/footer::footer}"></footer>
-
 </body>
 </html>

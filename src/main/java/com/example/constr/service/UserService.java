@@ -36,9 +36,6 @@ public class UserService implements UserDetailsService  {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
-    @Autowired
-    @Lazy
-    AuthenticationManager authenticationManager;
 
     @Bean
    public PasswordEncoder encoder() {

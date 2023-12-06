@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "tour_ratings")
 public class TourRatings {
-    @Id
+    @Id 
     @SequenceGenerator(
         name = "tour_ratings_sequence",
         sequenceName = "tour_ratings_sequence",

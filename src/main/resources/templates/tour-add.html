@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Tour</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2>Add New Tour</h2>
+    <form  th:action="@{/tour/add}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="imageFile">Tour Image:</label>
+            <input type="file" class="form-control-file" id="imageFile" name="imageFile">
+        </div> 
+            <div class="form-group">
+                <label for="tourName">Tour Name:</label>
+                <input type="text" class="form-control" id="tourName" name="tourName" required>
+            </div>
+            <div class="form-group">
+                <label for="duration">Tour End Time:</label>
+                <input type="date" class="form-control" id="duration" name="duration" required>
+            </div>
+            <div class="form-group">
+                <label for="type">Tour Type:</label>
+                <input type="text" class="form-control" id="type" name="type" required>
+            </div>
+            <div class="form-group">
+                <label for="maxNumberOfPeople">Max Number of People:</label>
+                <input type="number" class="form-control" id="maxNumberOfPeople" name="maxNumberOfPeople" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" class="form-control" id="price" name="price" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Tour Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

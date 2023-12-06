@@ -1,12 +1,15 @@
 package com.example.constr.model;
 
 import java.sql.Date;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
@@ -46,10 +49,10 @@ public class Tour {
     @NotNull
     @Column(name = "tour_description", columnDefinition = "TEXT")
     private String description;
-
-    public Tour() {
-        // може бути декілька конструкторів із різними даними
-    }
+    
+    @NotNull
+    @Column(name = "tour_pirce")
+    private int price;
 
     public int getId() {
         return id;
@@ -97,5 +100,13 @@ public class Tour {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

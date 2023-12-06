@@ -1,6 +1,7 @@
 package com.example.constr.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 // import java.util.Optional;
 
@@ -16,5 +17,10 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     @Query("SELECT t FROM Tour t WHERE t.tourName = :tourName")
     List<Tour> findByTourName(@Param("tourName") String tourName);
 
-    // інші запити у базу даних
 }
+
+  // boolean existsById(int id);
+
+    // Optional<Tour> findById(int id);
+
+    // void deleteById(int id);

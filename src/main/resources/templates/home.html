@@ -2,11 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head> 
     <title th:text = "${title}"/> 
+    <style>
+      .tour-card {
+          border: 1px solid #ccc;
+          margin-bottom: 20px;
+          padding: 10px;
+      }
+
+      .tour-image {
+          max-width: 200px;
+          max-height: 200px;
+      }
+  </style>
 </head>
 <body>
   <header th:insert="~{blocks/header::header}"></header>
   <main>
-   
+    <div class="container">
+      <div class="row">
+          <div th:each="el : ${tour}" class="col-md-4">
+              <div class="card tour-card">
+                <img th:src="${tourImages[el.id][0].imageUrl}" class="card-img-top tour-image" />
+                  <div class="card-body">
+                      <h5 class="card-title">Type: <span th:text="${el.type}"></span></h5>
+                      <p class="card-text">Name: <span th:text="${el.tourName}"></span></p>
+                      <p class="card-text">Duration: <span th:text="${el.duration}"></span></p>
+                      <p class="card-text">Max Number of People: <span th:text="${el.maxNumberOfPeople}"></span></p>
+                      <p class="card-text">Description: <span th:text="${el.description}"></span></p>
+                      <p class="card-text">Price: <span th:text="${el.price}"></span></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
   </main>
   <footer th:insert="~{blocks/footer::footer}"></footer>
 

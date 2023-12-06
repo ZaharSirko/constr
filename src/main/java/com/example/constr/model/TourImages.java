@@ -1,4 +1,5 @@
 package com.example.constr.model;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,12 +28,11 @@ public class TourImages {
     private int id;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tour_id")
     private Tour tour;
-
-    @Column(name = "image")
-    private byte[] image;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     public int getId() {
         return id;
@@ -50,12 +50,12 @@ public class TourImages {
         this.tour = tour;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

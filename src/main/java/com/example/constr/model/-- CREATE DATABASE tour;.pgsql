@@ -73,5 +73,5 @@
 -- ALTER TABLE users
 -- DROP COLUMN users_email;
 
-select * from users;
+select * from tour
 

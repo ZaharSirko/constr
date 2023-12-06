@@ -56,7 +56,7 @@ public class UserController {
             return "sign-in";
         }
 
-        return "redirect:/tour";
+        return "redirect:/";
     }
 
 
@@ -72,7 +72,7 @@ public class UserController {
                             Model model) {
         try {
 
-            return "redirect:/tour"; 
+            return "redirect:/"; 
         } catch (Exception e) {
             model.addAttribute("loginError", e.getMessage()); 
             return "log-in"; 

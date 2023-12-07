@@ -9,10 +9,10 @@
           padding: 10px;
       }
 
-      .tour-image {
-          max-width: 200px;
-          max-height: 200px;
-      }
+      /* .tour-image {
+          min-width: 200px;
+          min-height: 200px;
+      } */
   </style>
 </head>
 <body>
@@ -30,6 +30,7 @@
                       <p class="card-text">Max Number of People: <span th:text="${el.maxNumberOfPeople}"></span></p>
                       <p class="card-text">Description: <span th:text="${el.description}"></span></p>
                       <p class="card-text">Price: <span th:text="${el.price}"></span></p>
+                      <a th:href="@{'/tour/' + ${el.tourName}}" class="card tour-card  my-2">Go to tour</a>
                   </div>
               </div>
           </div>

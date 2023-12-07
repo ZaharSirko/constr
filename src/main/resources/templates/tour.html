@@ -1,21 +1,25 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head> 
-    <title th:text = "${title}"/> 
+<head>
+    <title>Tour Details</title>
 </head>
 <body>
-  <header th:insert="~{blocks/header::header}"></header>
-  <main>
-    <div sec:authorize="isAuthenticated()">
-      Text visible only to authenticated users.
-      <hr class="dropdown-divider">
-      Authenticated username:
-<div sec:authentication="name"></div>
-Authenticated user roles:
-<div sec:authentication="principal.authorities"></div>
-  </div>
-  </main>
-  <footer th:insert="~{blocks/footer::footer}"></footer>
+    <header th:insert="~{blocks/header::header}"></header>
+<main>
+    <!-- Tour Details -->
+<div class="container mt-4">
+    <h1 th:text="${tour.tourName}"></h1>
+    <p><strong>Type:</strong> <span th:text="${tour.type}"></span></p>
+    <p><strong>Duration:</strong> <span th:text="${#dates.format(tour.duration, 'dd.MM.yyyy')}"></span></p>
+    <p><strong>Max Number of People:</strong> <span th:text="${tour.maxNumberOfPeople}"></span></p>
+    <p><strong>Description:</strong></p>
+    <p th:text="${tour.description}"></p>
+    <p><strong>Price:</strong> <span th:text="${tour.price}"></span></p>
 
+    <!-- Tour Images -->
+
+</div>
+</main>
+<footer th:insert="~{blocks/footer::footer}"></footer>
 </body>
 </html>

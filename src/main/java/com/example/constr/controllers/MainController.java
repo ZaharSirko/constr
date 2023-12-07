@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.constr.model.Tour;
 import com.example.constr.model.TourImages;
 import com.example.constr.repo.TourImagesRepository;
+import com.example.constr.service.TourImagesService;
 import com.example.constr.service.TourService;
 
 @Controller
 public class MainController {
     private final TourService tourService;
-    private final TourImagesRepository tourImagesRepository;
+    private final TourImagesService tourImagesService;
 
     @Autowired
-    public MainController(TourService tourService,TourImagesRepository tourImagesRepository) {
+    public MainController(TourService tourService,TourImagesService tourImagesService) {
         this.tourService = tourService;
-        this.tourImagesRepository = tourImagesRepository;
+        this.tourImagesService = tourImagesService;
     }
 
 	@GetMapping("/")
@@ -33,7 +34,7 @@ public class MainController {
 
 
     for (Tour tour : tours) {
-        List<TourImages> tourImages = tourImagesRepository.findByTour(tour);
+        List<TourImages> tourImages = tourImagesService.getTourImagesByTourName(tour);
         tourImagesMap.put(tour.getId(), tourImages);
     }
 	model.addAttribute("tour", tours);

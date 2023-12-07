@@ -7,26 +7,42 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.example.constr.model.Tour;
+import com.example.constr.model.TourImages;
+import com.example.constr.repo.TourImagesRepository;
+import com.example.constr.service.TourImagesService;
 import com.example.constr.service.TourService;
 
 import java.io.IOException;
 import java.util.List;
 
+
 @Controller
 public class TourController {
 
     private final TourService tourService;
+    private final TourImagesService tourImagesService;
 
     @Autowired
-    public TourController(TourService tourService) {
+    public TourController(TourService tourService,TourImagesService tourImagesService) {
         this.tourService = tourService;
+        this.tourImagesService = tourImagesService;
     }
     
-
-    // @GetMapping("/{tourName}")
-    // public List<Tour> getToursByTourName(@PathVariable String tourName) {
-    //     return tourService.getToursByTourName(tourName);
-    // }
+    // getToursByTourName
+    // getTourImagesByTourId
+    @GetMapping("/tour/{tourName}")
+    public String getToursByTourName(@PathVariable String tourName, Model model) {
+        Tour tour = tourService.getToursByTourName(tourName);
+        if (tour != null) {
+            List<TourImages> tourImages = tourImagesService.getTourImagesByTourName(tour);
+            model.addAttribute("tour", tour);
+            model.addAttribute("tourImages", tourImages);
+            return "tour"; 
+        } else {
+            return "tourNotFound"; 
+        }
+    }
+    
     @GetMapping("/tour/add")
     public String addTour(Model model) {
         return "tour-add"; 

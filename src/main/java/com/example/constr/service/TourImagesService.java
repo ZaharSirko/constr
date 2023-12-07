@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.constr.model.Tour;
+import com.example.constr.model.TourImages;
 import com.example.constr.repo.TourImagesRepository;
 
 import java.io.File;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -37,5 +40,16 @@ public class TourImagesService {
 
     private String generateUniqueFileName(String originalFileName) {
         return UUID.randomUUID().toString() + "_" + originalFileName;
+    }
+
+    public List<TourImages> getTourImagesByTourName(Tour tourName) {
+        return tourImagesRepository.findByTour(tourName);
+    }
+
+    
+
+    
+    public List<TourImages> getTourImagesByTourId(int tourId) {
+        return tourImagesRepository.findByTourId(tourId);
     }
 }

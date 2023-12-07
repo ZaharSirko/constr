@@ -1,9 +1,6 @@
 package com.example.constr.repo;
-
-import java.util.List;
 import java.util.Optional;
 
-// import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +12,8 @@ import com.example.constr.model.Tour;
 @Repository
 public interface TourRepository extends JpaRepository<Tour,Long> {
     @Query("SELECT t FROM Tour t WHERE t.tourName = :tourName")
-    List<Tour> findByTourName(@Param("tourName") String tourName);
-
+    Tour findByTourName(@Param("tourName") String tourName);
+    Optional<Tour> findById(int id);
 }
 
   // boolean existsById(int id);

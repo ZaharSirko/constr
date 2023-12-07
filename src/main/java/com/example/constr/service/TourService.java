@@ -12,6 +12,7 @@ import com.example.constr.repo.TourRepository;
 import java.io.IOException;
 import java.util.List;
 
+
 @Service
 public class TourService {
 
@@ -28,6 +29,14 @@ public class TourService {
 
     public List<Tour> getAllTours() {
         return tourRepository.findAll();
+    }
+
+    public Tour getTourById(int id) {
+        return tourRepository.findById(id).orElse(null);
+    }
+
+       public Tour getToursByTourName(String tourName) {
+        return tourRepository.findByTourName(tourName);
     }
 
     public Tour createTour(Tour tour, MultipartFile imageFile) throws IOException {

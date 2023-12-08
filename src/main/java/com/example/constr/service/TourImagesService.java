@@ -46,9 +46,6 @@ public class TourImagesService {
         return tourImagesRepository.findByTour(tourName);
     }
 
-    
-
-    
     public List<TourImages> getTourImagesByTourId(int tourId) {
         return tourImagesRepository.findByTourId(tourId);
     }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.constr.model.Tour;
 import com.example.constr.model.TourImages;
-import com.example.constr.repo.TourImagesRepository;
 import com.example.constr.service.TourImagesService;
 import com.example.constr.service.TourService;
 

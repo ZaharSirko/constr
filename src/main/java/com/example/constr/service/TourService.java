@@ -39,6 +39,10 @@ public class TourService {
         return tourRepository.findByTourName(tourName);
     }
 
+    public List<TourImages> getImagesForTour(int tourId) {
+        return tourImagesRepository.findByTourId(tourId);
+    }
+
     public Tour createTour(Tour tour, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
             String imageUrl = tourImageService.saveImage(imageFile);
@@ -52,28 +56,6 @@ public class TourService {
 
         return tourRepository.save(tour);
     }
-
-    // public Tour getTourById(int id) {
-    //     return tourRepository.findById(id).orElse(null);
-    // }
-
-    // public Tour updateTour(int id, Tour tour) {
-    //     if (tourRepository.existsById(id)) {
-    //         tour.setId(id);
-    //         return tourRepository.save(tour);
-    //     }
-    //     return null;
-    // }
-
-    // public void deleteTour(int id) {
-    //     tourRepository.deleteById(id);
-    // }
-
-   // public List<Tour> getToursByTourName(String tourName) {
-    //     return tourRepository.findByTourName(tourName);
-    // }
-
-    // інші методи
 }
 
 

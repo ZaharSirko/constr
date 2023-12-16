@@ -14,5 +14,4 @@ public interface TourImagesRepository  extends JpaRepository<TourImages,Long> {
     @Query("SELECT t_i FROM TourImages t_i WHERE t_i.tour.id = :TourId")
     List<TourImages> findByTourId(@Param("TourId")int TourId);
     List<TourImages> findByTour(Tour tour);
-    // List<TourImages> findByTour(Tour tour);
 }

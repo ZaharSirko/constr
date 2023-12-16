@@ -1,11 +1,15 @@
 package com.example.constr.model;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
@@ -49,6 +53,9 @@ public class Tour {
     @NotNull
     @Column(name = "tour_pirce")
     private int price;
+
+    @ManyToMany(mappedBy = "tours")
+    private Set<User> users = new HashSet<>();
 
     public int getId() {
         return id;

@@ -8,17 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.example.constr.model.Tour;
 import com.example.constr.model.TourImages;
 import com.example.constr.service.TourImagesService;
 import com.example.constr.service.TourService;
 
+
 @Controller
 public class MainController {
     private final TourService tourService;
     private final TourImagesService tourImagesService;
+
 
     @Autowired
     public MainController(TourService tourService,TourImagesService tourImagesService) {
@@ -30,6 +32,7 @@ public class MainController {
 	public String home( Model model) { 
 	List<Tour> tours = tourService.getAllTours(); 
     Map<Integer, List<TourImages>> tourImagesMap = new HashMap<>();
+    
 
 
     for (Tour tour : tours) {

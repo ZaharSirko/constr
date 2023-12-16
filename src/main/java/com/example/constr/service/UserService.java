@@ -15,8 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.constr.model.Role;
+import com.example.constr.model.Tour;
 import com.example.constr.model.User;
 import com.example.constr.repo.RoleRepository;
+import com.example.constr.repo.TourRepository;
 import com.example.constr.repo.UserRepository;
 
 import jakarta.persistence.EntityManager;
@@ -30,7 +32,8 @@ public class UserService implements UserDetailsService  {
     UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
-
+    @Autowired
+    TourRepository tourRepository;
     @Bean
    public PasswordEncoder encoder() {
     return new BCryptPasswordEncoder();
@@ -80,5 +83,15 @@ public class UserService implements UserDetailsService  {
     }
     public List<User> allUsers() {
         return userRepository.findAll();
+    }
+
+    public void addTourToUserBasket(String userName, int tourId) {
+        User user = userRepository.findByUsername(userName);
+        Tour tour = tourRepository.findById(tourId).orElse(null);
+
+        if (user != null && tour != null) {
+            user.getTours().add(tour); // Додає тур до списку турів користувача
+            userRepository.save(user);
+        }
     }
 }

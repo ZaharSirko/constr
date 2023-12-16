@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.constr.model.Tour;
 import com.example.constr.model.TourImages;
+import com.example.constr.model.User;
 import com.example.constr.repo.TourImagesRepository;
 import com.example.constr.repo.TourRepository;
+import com.example.constr.repo.UserRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -19,12 +22,14 @@ public class TourService {
     private final TourRepository tourRepository;
     private final TourImagesService tourImageService;
     private final TourImagesRepository tourImagesRepository;
+    private final UserRepository  userRepository;
 
     @Autowired
-    public TourService(TourRepository tourRepository, TourImagesService tourImageService, TourImagesRepository tourImagesRepository) {
+    public TourService(TourRepository tourRepository, TourImagesService tourImageService, TourImagesRepository tourImagesRepository, UserRepository  userRepository) {
         this.tourRepository = tourRepository;
         this.tourImageService = tourImageService;
         this.tourImagesRepository = tourImagesRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Tour> getAllTours() {
@@ -55,6 +60,11 @@ public class TourService {
         }
 
         return tourRepository.save(tour);
+    }
+
+    public Set<Tour> getToursByUserName(String userName) {
+        User user = userRepository.findByUsername(userName);
+        return user.getTours(); // Повертає список турів, пов'язаних з користувачем за його ім'ям
     }
 }
 

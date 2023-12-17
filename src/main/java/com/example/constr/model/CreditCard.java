@@ -1,6 +1,4 @@
 package com.example.constr.model;
-import java.sql.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,7 +41,7 @@ public class CreditCard {
 
     @NotNull
     @Column(name = "expiration_date")
-    private Date expirationDate;
+    private String expirationDate;
 
     @NotNull
     @Column(name = "cvv")
@@ -81,11 +79,11 @@ public class CreditCard {
         this.cardHolderName = cardHolderName;
     }
 
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 

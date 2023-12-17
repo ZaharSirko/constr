@@ -51,16 +51,12 @@
                             <h5 class="card-title">Book this Tour</h5>
                             <form th:action="@{/tour/+${tour.tourName}}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email address</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                                    <label for="fullName">Credit card</label>
+                                    <input type="text" class="form-control" id="creditCard" placeholder="Enter your credit card" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="numberOfPeople">Number of People</label>
-                                    <input type="number" class="form-control" id="NumberOfPeople" name="NumberOfPeople" required  min="0">
+                                    <input type="number" class="form-control" id="NumberOfPeople" name="NumberOfPeople" required  min="0" placeholder="Enter number of pepople">
                                 </div>
                                 <div class="form-group">
                                         <label for="Price">Price:</label> <span th:text="${tour.price}"></span>

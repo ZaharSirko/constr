@@ -58,6 +58,10 @@ public class UserService implements UserDetailsService  {
         return userFromDb.orElse(new User());
     }
 
+    public User getUserByUserName(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public boolean deleteUser(Long userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
@@ -76,6 +80,9 @@ public class UserService implements UserDetailsService  {
 
         return user;
     }
+
+
+
 
     public List<User> usergtList(Long idMin) {
         return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)

@@ -3,7 +3,6 @@ package com.example.constr.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,10 +32,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    // private boolean isLoggedIn() {
-    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    //     return authentication != null  && authentication.isAuthenticated();
-    // }
 
     @GetMapping("/sign-in")
     public String registration(Model model) {
@@ -87,6 +83,18 @@ public class UserController {
         }
         return "redirect:/";
     }
+
+    @GetMapping(value = "/profile/{userName}")
+    public String getUserPrifile(@PathVariable String userName, Model model) {
+        User user = userService.getUserByUserName(userName);
+        if (user != null) {
+            model.addAttribute("user", user);
+        } else {
+        }
+            return "user-profile"; 
+    }
+
+
 }
 
     

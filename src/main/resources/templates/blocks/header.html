@@ -48,14 +48,10 @@
                   </a>
                   <ul class="dropdown-menu text-small">
                       <li sec:authorize="isAuthenticated()">
-                          <a class="dropdown-item" href="/user">Profile</a>
-                        </li>
-                      <li sec:authorize="isAuthenticated()">
+                        <a class="dropdown-item" th:href="@{|~/profile/${#authentication.name}|}">Profile</a>
                           <hr class="dropdown-divider">
-                      </li>
-                      <li sec:authorize="isAuthenticated()">
                           <a class="dropdown-item" href="/logout">Sign out</a>
-                      </li>
+                        </li>
                       <li sec:authorize="!isAuthenticated()">
                           <a class="dropdown-item" href="/log-in">Log in</a>
                           <a class="dropdown-item" href="/sign-in">Sign in</a>

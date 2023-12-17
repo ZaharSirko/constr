@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+  <title>User profile</title>
+</head>
+
+<body>
+  <header th:insert="~{blocks/header::header}"></header>
+  <main class="container mt-4">
+
+
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="list-group list-group-flush account-settings-links">
+              <a class="list-group-item list-group-item-action"   th:href="@{|~/profile/${#authentication.name}|}">General</a>
+              <a class="list-group-item list-group-item-action"  th:href="@{|~/profile/${#authentication.name}/credit-cards|}">Credit card</a> 
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+          <div class="card">
+              <div class="card-header">
+                  <h5 class="card-title">
+                      Credit Card Profile
+                  </h5>
+              </div>
+              <div class="card-body">
+                  <form id="creditCardForm" th:action="@{/profile/{userName}/credit-cards/edit}" th:object="${creditCard}" method="post">
+                      <div class="mb-3">
+                          <label class="form-label" for="cardNumber">
+                              Card Number
+                          </label>
+                          <input class="form-control" id="cardNumber" name="cardNumber" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="1234 5678 9012 3456" required="">
+                      </div>
+                      <div class="mb-3">
+                          <label class="form-label" for="cardHolder">
+                              Card Holder
+                          </label>
+                          <input class="form-control" id="cardHolder" name="cardHolderName" placeholder="John Doe" required="" type="text">
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6 mb-3">
+                              <label class="form-label" for="expiryDate">
+                                  Expiry Date
+                              </label>
+                              <input class="form-control" id="expiryDate" name="expirationDate" required="" type="month">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label class="form-label" for="cvv">
+                                  CVV
+                              </label>
+                              <input class="form-control" id="cvv" name="cvv" placeholder="123" required="" maxlength="3" type="text">
+                          </div>
+                      </div>
+                      <button class="btn btn-primary" type="submit">
+                          Save
+                      </button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  </main>
+  <footer th:insert="~{blocks/footer::footer}"></footer>
+</body>
+
+</html>

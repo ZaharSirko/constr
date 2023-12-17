@@ -38,7 +38,7 @@ public class User implements UserDetails {
     private int id;
 
     @NotNull
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     private String userName;
 
     @NotNull
@@ -181,6 +181,11 @@ public class User implements UserDetails {
     public void setCurrency(float currency) {
         this.currency = currency;
     }
-
-
+    public User(){};
+    public User(int id) {
+        this.id = id;
+    }
+    public User(String userName) {
+        this.userName = userName;
+    }
 }

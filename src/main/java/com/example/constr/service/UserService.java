@@ -81,9 +81,6 @@ public class UserService implements UserDetailsService  {
         return user;
     }
 
-
-
-
     public List<User> usergtList(Long idMin) {
         return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
                 .setParameter("paramId", idMin).getResultList();
@@ -97,8 +94,25 @@ public class UserService implements UserDetailsService  {
         Tour tour = tourRepository.findById(tourId).orElse(null);
 
         if (user != null && tour != null) {
-            user.getTours().add(tour); // Додає тур до списку турів користувача
+            user.getTours().add(tour); 
             userRepository.save(user);
         }
+    }
+    public void removeTourFromUserBasket(String userName, int tourId) {
+        User user = userRepository.findByUsername(userName);
+        Tour tour = tourRepository.findById(tourId).orElse(null);
+        
+    
+        if (user != null && tour != null) {
+            user.getTours().remove(tour); 
+            userRepository.save(user);
+        }
+    }
+    
+    public void topUpBalance(User user, float amount) {
+        float currentBalance = user.getCurrency();
+        float newBalance = currentBalance + amount;
+        user.setCurrency(newBalance);
+        userRepository.save(user);
     }
 }

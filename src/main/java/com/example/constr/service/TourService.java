@@ -64,8 +64,17 @@ public class TourService {
 
     public Set<Tour> getToursByUserName(String userName) {
         User user = userRepository.findByUsername(userName);
-        return user.getTours(); // Повертає список турів, пов'язаних з користувачем за його ім'ям
+        return user.getTours();
     }
+    
+    public boolean saveTour(Tour tour) {
+        Tour tourFromDB = tourRepository.findByTourName(tour.getTourName());
+       if (tourFromDB != null) {
+           return false;
+       }
+       tourRepository.save(tour);
+       return true;
+   }
 }
 
 

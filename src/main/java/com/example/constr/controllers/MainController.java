@@ -1,5 +1,6 @@
 package com.example.constr.controllers;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,9 @@ public class MainController {
     }
 
 	@GetMapping("/")
-	public String home( Model model) { 
+	public String home( Model model, Principal principal) { 
 	List<Tour> tours = tourService.getAllTours(); 
     Map<Integer, List<TourImages>> tourImagesMap = new HashMap<>();
-    
-
-
     for (Tour tour : tours) {
         List<TourImages> tourImages = tourImagesService.getTourImagesByTourName(tour);
         tourImagesMap.put(tour.getId(), tourImages);

@@ -1,6 +1,6 @@
 package com.example.constr.service;
 
-import java.util.List;
+
 
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class CreditCardService {
         this.creditCardRepository = creditCardRepository;
     }
 
-    public List<CreditCard> getCreditCardsByUserId(int userId) {
+    public CreditCard getCreditCardByUserId(int userId) {
         return creditCardRepository.findByUserId(userId);
     }
 

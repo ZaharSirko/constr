@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title th:text = "${title}"/> 
+</head>
+<body>
+  <header th:insert="~{blocks/header::header}"></header>
+  <main>
+    <div class="container mt-4">
+      <h2>Top Up Balance</h2>
+      <form th:action="@{|~/profile/${#authentication.name}/credit-cards/top-up|}" method="post">
+          <input type="hidden" name="cardId" th:value="${creditCard.getId()}" />
+          <div class="form-group">
+              <label for="amount">Enter Amount:</label>
+              <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount to top up" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Top Up</button>
+      </form>
+  </div>
+  </main>
+  <footer th:insert="~{blocks/footer::footer}"></footer>
+
+</body>
+</html>

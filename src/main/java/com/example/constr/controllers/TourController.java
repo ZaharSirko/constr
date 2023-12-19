@@ -5,13 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
+import com.example.constr.model.CreditCard;
 import com.example.constr.model.Tour;
 import com.example.constr.model.TourImages;
+import com.example.constr.model.User;
+import com.example.constr.service.CreditCardService;
+import com.example.constr.service.TourImagesService;
 import com.example.constr.service.TourService;
 import com.example.constr.service.UserService;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -20,37 +28,78 @@ public class TourController {
 
     private final TourService tourService;
     private final UserService userService;
-
+    private final CreditCardService creditCardService;
+    private final TourImagesService tourImagesService;
     @Autowired
-    public TourController(TourService tourService,UserService userService) {
+    public TourController(TourService tourService,UserService userService,CreditCardService creditCardService,TourImagesService tourImagesService) {
         this.tourService = tourService;
         this.userService = userService;
+        this.creditCardService = creditCardService;
+        this.tourImagesService = tourImagesService;
+        
     }
     
     @GetMapping(value = "/tour/{tourName}")
-    public String getToursByTourNameDetails(@PathVariable String tourName, Model model) {
+    public String getToursByTourNameDetails(@PathVariable String tourName, Model model, Principal principal) {
+        if(principal != null){
+            String userName = principal.getName();
+            User user = userService.getUserByUserName(userName);
+            CreditCard creditCard = creditCardService.getCreditCardsByUserName(userName);
+            boolean hasCreditCard = (user != null && creditCard != null);
+            model.addAttribute("hasCreditCard", hasCreditCard);
+            model.addAttribute("creditCard", creditCard);
+        }
         Tour tour = tourService.getToursByTourName(tourName);
-            List<TourImages> tourImages = tourService.getImagesForTour(tour.getId());
-            model.addAttribute("tour", tour);
-            model.addAttribute("tourImages", tourImages);
-            return "tour-detail"; 
+        List<TourImages> tourImages = tourService.getImagesForTour(tour.getId());
+        model.addAttribute("tour", tour);
+        model.addAttribute("tourImages", tourImages);
+        return "tour-detail"; 
     }
 
     @PostMapping(value = "/tour/{tourName}")
-    public String addTourToUserBasket(@PathVariable String userName, @PathVariable int tourId) {
-        userService.addTourToUserBasket(userName, tourId);
-        return "redirect:/";
+    public String addTourToUserBasket(@PathVariable String tourName, Principal principal) {
+        Tour tour = tourService.getToursByTourName(tourName);
+        String userName = principal.getName();
+        User user = userService.getUserByUserName(userName);
+        float tourPrice = tour.getPrice();
+        if (user != null && user.getCurrency() >= tourPrice) {
+            userService.topUpBalance(user, -tourPrice);
+            userService.addTourToUserBasket(userName, tour.getId());
+        }
+        else{
+            return "redirect:/profile/"+userName+"/credit-cards/top-up";
+        }
+        return "redirect:/tour/basket/{userName}";
     }
 
     @GetMapping(value = "/tour/basket/{userName}")
     public String getTourBasketOfUser(@PathVariable String userName, Model model) {
         Set<Tour> userTours = tourService.getToursByUserName(userName);
-
+         Map<Integer, List<TourImages>> tourImagesMap = new HashMap<>();
+        for (Tour tour : userTours) {
+            List<TourImages> tourImages = tourImagesService.getTourImagesByTourName(tour);
+            tourImagesMap.put(tour.getId(), tourImages);
+        }
+        model.addAttribute("tourImages", tourImagesMap);
         model.addAttribute("userTours", userTours);
-
         return "tour-basket";
     }
 
+    @PostMapping(value = "/tour/basket/{userName}/cancel/{tourId}")
+    public String cancelTourReservation( @PathVariable String userName,@PathVariable int tourId  ) {
+        User user = userService.getUserByUserName(userName);
+        Tour tour = tourService.getTourById(tourId);
+        if (user != null && tour != null && user.getTours().contains(tour)) {
+            float tourPrice = tour.getPrice(); 
+            float insurance_payment = (5f / 100f) * tourPrice; 
+            float discountedPrice = tourPrice - insurance_payment;
+            userService.topUpBalance(user, discountedPrice);
+            userService.removeTourFromUserBasket(userName, tourId);
+        } 
+    
+        return "redirect:/tour/basket/" + userName;
+    }
+    
 
 
     @GetMapping("/tour/add")

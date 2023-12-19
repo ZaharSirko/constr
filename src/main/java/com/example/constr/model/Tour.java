@@ -57,6 +57,14 @@ public class Tour {
     @ManyToMany(mappedBy = "tours")
     private Set<User> users = new HashSet<>();
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     public int getId() {
         return id;
     }

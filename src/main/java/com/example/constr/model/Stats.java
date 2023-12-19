@@ -43,7 +43,7 @@ public class Stats {
     @NotNull
     @Column(name = "stats_profit")
     @Transient
-    private float profit; // Transient field as it's calculated
+    private float profit; 
 
     public int getId() {
         return id;

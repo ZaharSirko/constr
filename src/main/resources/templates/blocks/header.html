@@ -38,7 +38,7 @@
 
               <!-- Баланс -->
               <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" sec:authorize="isAuthenticated()">
-                <a class="dropdown-item fa-2x" href="/curency"> 0.00$ </a>
+                <a class="dropdown-item fa-2x" th:href="@{|~/profile/${#authentication.name}/credit-cards/top-up|}" th:text="${user.currency} + ' $'"></a>
                 </form>
 
                 <!-- профіль -->

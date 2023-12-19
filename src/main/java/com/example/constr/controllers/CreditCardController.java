@@ -1,9 +1,4 @@
 package com.example.constr.controllers;
-
-
-import java.util.List;
-
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -11,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.constr.model.CreditCard;
 import com.example.constr.model.User;
@@ -49,30 +44,33 @@ public class CreditCardController {
     public String addCreditCardToUser(@ModelAttribute("creditCard") CreditCard creditCard, @PathVariable String userName) {
         User user = userService.getUserByUserName(userName);
         if (user != null) {
-   
-
             creditCard.setUser(user);
-
             creditCardService.addCreditCardToUser(creditCard, user.getId());
         }
         return "redirect:/profile/" + userName +"/credit-cards";
     }
 
-    // @PutMapping("/profile/{userName}/credit-cards/{cardId}")
-    // public ResponseEntity<CreditCard> updateCreditCard(
-    //         @RequestBody CreditCard updatedCreditCard,
-    //         @PathVariable int cardId,
-    //         @PathVariable String userName,
-    //         Model model
-    // ) {
-    //     updatedCreditCard.setId(cardId);
-    //     CreditCard updatedCard = creditCardService.updateCreditCard(updatedCreditCard);
-    //     return ResponseEntity.ok(updatedCard);
-    // }
+    @GetMapping("/profile/{userName}/credit-cards/top-up")
+    public String showTopUpForm(@PathVariable String userName, Model model) {
+        User user = userService.getUserByUserName(userName);
+        CreditCard creditCard = creditCardService.getCreditCardByUserId(user.getId());
+        if (user != null) {
+            if (creditCard == null) {
+                return "redirect:/profile/{userName}/credit-cards/add";
+            }
+                model.addAttribute("creditCard",creditCard);
+                model.addAttribute("user", user);
+                return "user-top-up-balance"; 
+        }
+        return "redirect:/error"; 
+    }
 
-    // @DeleteMapping("/profile/{userName}/credit-cards/{cardId}")
-    // public ResponseEntity<Void> deleteCreditCard(@PathVariable Long cardId, @PathVariable String userName) {
-    //     creditCardService.deleteCreditCard(cardId);
-    //     return ResponseEntity.noContent().build();
-    // }
+    @PostMapping(value = "/profile/{userName}/credit-cards/top-up")
+    public String topUpUserBalance(@RequestParam("amount") float amount, @PathVariable String userName) {
+        User user = userService.getUserByUserName(userName);
+                userService.topUpBalance(user, amount); 
+                return "redirect:/profile/" + userName;
+            
+    }
+
 }

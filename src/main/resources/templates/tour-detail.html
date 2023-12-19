@@ -49,23 +49,36 @@
                     <div class="card booking-form">
                         <div class="card-body">
                             <h5 class="card-title">Book this Tour</h5>
-                            <form th:action="@{/tour/+${tour.tourName}}" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="fullName">Credit card</label>
-                                    <input type="text" class="form-control" id="creditCard" placeholder="Enter your credit card" required>
-                                </div>
-                                <div class="form-group">
+                            <form th:action="@{|~/tour/${tour.getTourName()}|}" method="post" enctype="multipart/form-data">
+                    
+                                <div th:if="${hasCreditCard}">
+                                    <div class="form-group">
+                                        <label for="creditCard">Credit card</label>
+                                        <div class="form-control" id="cardNumber" th:text="${creditCard.getCardNumber()}"></div>
+                                <!-- <div class="form-group">
                                     <label for="numberOfPeople">Number of People</label>
-                                    <input type="number" class="form-control" id="NumberOfPeople" name="NumberOfPeople" required  min="0" placeholder="Enter number of pepople">
-                                </div>
+                                    <input type="number" class="form-control" id="NumberOfPeople" name="NumberOfPeople" required  min="0" placeholder="Enter number of people">
+                                </div> -->
+                                
                                 <div class="form-group">
-                                        <label for="Price">Price:</label> <span th:text="${tour.price}"></span>
+                                    <label for="Price">Price:</label> <span th:text="${tour.price}"></span>
                                 </div>
-                        <button type="submit" class="btn btn-primary btn-block"  >Book Now</button>
-                    </form>
+                                
+                                <button type="submit" class="btn btn-primary btn-block">Book Now</button>
+                                    </div>
+                                </div>
+
+                                <div th:unless="${hasCreditCard}">
+                                    <div class="form-group">
+                                        <label for="creditCard">Add credit card</label>
+                                       <a th:href="@{|~/profile/${#authentication.name}/credit-cards|}">Credit card</a> 
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                
 
         <div class="col-lg-4" sec:authorize="!isAuthenticated()">
             <div class="card booking-form">

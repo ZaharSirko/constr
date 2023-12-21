@@ -93,9 +93,13 @@ public class UserService implements UserDetailsService  {
         User user = userRepository.findByUsername(userName);
         Tour tour = tourRepository.findById(tourId).orElse(null);
 
-        if (user != null && tour != null) {
-            user.getTours().add(tour); 
-            userRepository.save(user);
+        if (user != null && tour != null && tour.getCurrentNumberOfPeople() < tour.getMaxNumberOfPeople()) {
+            boolean isTourAlreadyAdded = user.getTours().contains(tour);
+            if (!isTourAlreadyAdded) {
+                tour.setCurrentNumberOfPeople(tour.getCurrentNumberOfPeople() + 1);
+                user.getTours().add(tour);
+                userRepository.save(user);
+            }
         }
     }
     public void removeTourFromUserBasket(String userName, int tourId) {
@@ -104,6 +108,7 @@ public class UserService implements UserDetailsService  {
         
     
         if (user != null && tour != null) {
+            tour.setCurrentNumberOfPeople(tour.getCurrentNumberOfPeople()-1);
             user.getTours().remove(tour); 
             userRepository.save(user);
         }

@@ -13,10 +13,6 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     @Query("SELECT t FROM Tour t WHERE t.tourName = :tourName")
     Tour findByTourName(@Param("tourName") String tourName);
     Optional<Tour> findById(int id);
+      void deleteById(int id);
 }
 
-  // boolean existsById(int id);
-
-    // Optional<Tour> findById(int id);
-
-    // void deleteById(int id);

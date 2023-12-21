@@ -75,6 +75,28 @@ public class TourService {
        tourRepository.save(tour);
        return true;
    }
+   public void deleteTourById(int id) {
+    tourRepository.deleteById(id);
+}
+
+public boolean updateTour(int id, Tour updatedTour) {
+    Tour existingTour = tourRepository.findById(id).orElse(null);
+    if (existingTour != null) {
+        existingTour.setTourName(updatedTour.getTourName());
+        existingTour.setStartTime(updatedTour.getStartTime());
+        existingTour.setEndTime(updatedTour.getEndTime());
+        existingTour.setType(updatedTour.getType());
+        existingTour.setMaxNumberOfPeople(updatedTour.getMaxNumberOfPeople());
+        existingTour.setMinNumberOfPeople(updatedTour.getMinNumberOfPeople());
+        existingTour.setPrice(updatedTour.getPrice());
+        existingTour.setDescription(updatedTour.getDescription());
+
+        tourRepository.save(existingTour); // Зберігаємо оновлений тур в базі даних
+        return true;
+    }
+    return false;
+}
+
 }
 
 

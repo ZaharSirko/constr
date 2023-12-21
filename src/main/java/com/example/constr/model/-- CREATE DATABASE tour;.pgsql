@@ -73,5 +73,9 @@
 -- ALTER TABLE users
 -- DROP COLUMN users_email;
 
-select * from users
+-- UPDATE tour
+-- set tour_current_number_of_people = 0
+-- WHERE tour_id = 7;
 
+
+select * from user_tours;

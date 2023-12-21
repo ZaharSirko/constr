@@ -41,6 +41,7 @@ public class TourController {
     
     @GetMapping(value = "/tour/{tourName}")
     public String getToursByTourNameDetails(@PathVariable String tourName, Model model, Principal principal) {
+      
         if(principal != null){
             String userName = principal.getName();
             User user = userService.getUserByUserName(userName);
@@ -51,6 +52,9 @@ public class TourController {
         }
         Tour tour = tourService.getToursByTourName(tourName);
         List<TourImages> tourImages = tourService.getImagesForTour(tour.getId());
+        boolean limit = tour.getCurrentNumberOfPeople() < tour.getMaxNumberOfPeople();
+      
+        model.addAttribute("limit", limit);
         model.addAttribute("tour", tour);
         model.addAttribute("tourImages", tourImages);
         return "tour-detail"; 
@@ -63,13 +67,16 @@ public class TourController {
         User user = userService.getUserByUserName(userName);
         float tourPrice = tour.getPrice();
         if (user != null && user.getCurrency() >= tourPrice) {
+            boolean isTourAlreadyAdded = user.getTours().contains(tour);
+            if(!isTourAlreadyAdded){
             userService.topUpBalance(user, -tourPrice);
             userService.addTourToUserBasket(userName, tour.getId());
+            }
         }
         else{
             return "redirect:/profile/"+userName+"/credit-cards/top-up";
         }
-        return "redirect:/tour/basket/{userName}";
+        return "redirect:/tour/basket/"+userName;
     }
 
     @GetMapping(value = "/tour/basket/{userName}")
@@ -116,6 +123,33 @@ public class TourController {
         tourService.createTour(newTour, imageFile);
         return "redirect:/";
       }
+    }
+
+    @GetMapping("/tour/edit/{id}")
+    public String showEditTourForm(@PathVariable("id") int id, Model model) {
+        Tour tour = tourService.getTourById(id);
+        if (tour != null) {
+            model.addAttribute("tour", tour);
+            return "tour-edit";
+        } else {
+            return "redirect:/"; // або відобразити повідомлення про помилку
+        }
+    }
+
+    @PostMapping("/tour/edit/{id}")
+    public String editTour(@PathVariable("id") int id, @ModelAttribute Tour updatedTour, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/"; 
+        } else {
+                tourService.updateTour(id, updatedTour);
+                return "redirect:/";
+        }
+    }
+
+    @GetMapping("/tour/delete/{id}")
+    public String deleteTour(@PathVariable("id") int id) {
+        tourService.deleteTourById(id); 
+        return "redirect:/"; 
     }
 }
 

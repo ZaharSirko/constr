@@ -26,8 +26,9 @@
                   <div class="card-body">
                       <h5 class="card-title">Type: <span th:text="${el.type}"></span></h5>
                       <p class="card-text">Name: <span th:text="${el.tourName}"></span></p>
-                      <p class="card-text">Duration: <span th:text="${el.duration}"></span></p>
-                      <p class="card-text">Max Number of People: <span th:text="${el.maxNumberOfPeople}"></span></p>
+                      <p class="card-text">Start and End Time: <span th:text="@{${#dates.format(el.startTime, 'dd.MM.yyyy')}+' - '+${#dates.format(el.endTime, 'dd.MM.yyyy')}}"></span></p>
+                      <p class="card-text">Number of People In Tour: <span th:text="@{${el.minNumberOfPeople}+' - '+${el.maxNumberOfPeople}}"></span></p>
+                      <p class="card-text">Current Number of People: <span th:text="${el.currentNumberOfPeople}"></span></p>
                       <p class="card-text">Description: <span th:text="${el.description}"></span></p>
                       <p class="card-text">Price: <span th:text="${el.price}"></span></p>
                       <a th:href="@{'/tour/' + ${el.tourName}}" class="card tour-card  my-2">Go to tour</a>

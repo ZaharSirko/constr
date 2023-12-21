@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Tour</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2>Edit Tour</h2>
+    <form th:action="@{'/tour/edit/' + ${tour.id}}" method="post">
+        <div class="form-group">
+            <label for="tourName">Tour Name:</label>
+            <input type="text" class="form-control" id="tourName" name="tourName" required th:value="${tour.tourName}">
+        </div>
+        <div class="form-group">
+            <label for="startTime">Tour Start Time:</label>
+            <input type="date" class="form-control" id="startTime" name="startTime" required th:value="${tour.startTime}">
+        </div>
+        <div class="form-group">
+            <label for="endTime">Tour End Time:</label>
+            <input type="date" class="form-control" id="endTime" name="endTime" required th:value="${tour.endTime}">
+        </div>
+        <div class="form-group">
+            <label for="type">Tour Type:</label>
+            <input type="text" class="form-control" id="type" name="type" required th:value="${tour.type}">
+        </div>
+        <div class="form-group">
+            <label for="maxNumberOfPeople">Max Number of People:</label>
+            <input type="number" class="form-control" id="maxNumberOfPeople" name="maxNumberOfPeople" required th:value="${tour.maxNumberOfPeople}">
+        </div>
+        <div class="form-group">
+            <label for="minNumberOfPeople">Min Number of People:</label>
+            <input type="number" class="form-control" id="minNumberOfPeople" name="minNumberOfPeople" required th:value="${tour.minNumberOfPeople}">
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" name="price" required th:value="${tour.price}">
+        </div>
+        <div class="form-group">
+            <label for="description">Tour Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="4" required th:text="${tour.description}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+</body>
+</html>

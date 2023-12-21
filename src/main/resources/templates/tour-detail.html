@@ -36,9 +36,13 @@
                     </div>
                     <div class="col-lg-8">
                     <p><strong>Type:</strong> <span th:text="${tour.type}"></span></p>
-                    <p><strong>Duration:</strong> <span
-                            th:text="${#dates.format(tour.duration, 'dd.MM.yyyy')}"></span></p>
+                    <p><strong>Start Time:</strong> <span
+                            th:text="${#dates.format(tour.startTime, 'dd.MM.yyyy')}"></span></p>
+                    <p><strong>End Time:</strong> <span
+                            th:text="${#dates.format(tour.endTime, 'dd.MM.yyyy')}"></span></p>
+                    <p><strong>Min Number of People:</strong> <span th:text="${tour.minNumberOfPeople}"></span></p>
                     <p><strong>Max Number of People:</strong> <span th:text="${tour.maxNumberOfPeople}"></span></p>
+                    <p><strong>Curent Number of People:</strong> <span th:text="${tour.currentNumberOfPeople}"></span></p>
                     <p><strong>Description:</strong></p>
                     <p th:text="${tour.description}"></p>
                     <p><strong>Price:</strong> <span th:text="${tour.price}"></span></p>
@@ -52,20 +56,19 @@
                             <form th:action="@{|~/tour/${tour.getTourName()}|}" method="post" enctype="multipart/form-data">
                     
                                 <div th:if="${hasCreditCard}">
+                                    <div th:if="${limit}">
                                     <div class="form-group">
                                         <label for="creditCard">Credit card</label>
                                         <div class="form-control" id="cardNumber" th:text="${creditCard.getCardNumber()}"></div>
-                                <!-- <div class="form-group">
-                                    <label for="numberOfPeople">Number of People</label>
-                                    <input type="number" class="form-control" id="NumberOfPeople" name="NumberOfPeople" required  min="0" placeholder="Enter number of people">
-                                </div> -->
+                           
                                 
                                 <div class="form-group">
                                     <label for="Price">Price:</label> <span th:text="${tour.price}"></span>
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary btn-block">Book Now</button>
-                                    </div>
+                            </div>       
+                            </div>
                                 </div>
 
                                 <div th:unless="${hasCreditCard}">
@@ -74,6 +77,12 @@
                                        <a th:href="@{|~/profile/${#authentication.name}/credit-cards|}">Credit card</a> 
                                     </div>
                                 </div>
+                                    <div th:unless="${limit}">
+                                        <div class="form-group">
+                                           <a >Maximum number of people in tour</a> 
+                                        </div>
+                                    </div>
+
                             </form>
                         </div>
                     </div>

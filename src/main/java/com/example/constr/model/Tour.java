@@ -35,8 +35,12 @@ public class Tour {
     private String tourName;
 
     @NotNull
-    @Column(name = "tour_duration")
-    private Date duration;
+    @Column(name = "tour_end_time")
+    private Date endTime;
+
+    @NotNull
+    @Column(name = "tour_start_time")
+    private Date startTime;
 
     @NotNull
     @Column(name = "tour_type")
@@ -46,6 +50,13 @@ public class Tour {
     @Column(name = "tour_max_number_of_people")
     private int maxNumberOfPeople;
     
+    @NotNull
+    @Column(name = "tour_min_number_of_people")
+    private int minNumberOfPeople;
+
+    @Column(name = "tour_current_number_of_people")
+    private Integer  currentNumberOfPeople = 0;
+
     @NotNull
     @Column(name = "tour_description", columnDefinition = "TEXT")
     private String description;
@@ -81,13 +92,7 @@ public class Tour {
         this.tourName = tourName;
     }
 
-    public Date getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Date duration) {
-        this.duration = duration;
-    }
+ 
 
     public String getType() {
         return type;
@@ -119,5 +124,37 @@ public class Tour {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getMinNumberOfPeople() {
+        return minNumberOfPeople;
+    }
+
+    public void setMinNumberOfPeople(int minNumberOfPeople) {
+        this.minNumberOfPeople = minNumberOfPeople;
+    }
+
+    public int getCurrentNumberOfPeople() {
+        return currentNumberOfPeople;
+    }
+
+    public void setCurrentNumberOfPeople(int currentNumberOfPeople) {
+        this.currentNumberOfPeople = currentNumberOfPeople;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 }

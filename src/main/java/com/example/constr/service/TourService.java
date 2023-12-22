@@ -91,7 +91,7 @@ public boolean updateTour(int id, Tour updatedTour) {
         existingTour.setPrice(updatedTour.getPrice());
         existingTour.setDescription(updatedTour.getDescription());
 
-        tourRepository.save(existingTour); // Зберігаємо оновлений тур в базі даних
+        tourRepository.save(existingTour); 
         return true;
     }
     return false;

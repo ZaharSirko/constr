@@ -35,7 +35,7 @@ public class TourController {
         this.tourService = tourService;
         this.userService = userService;
         this.creditCardService = creditCardService;
-        this.tourImagesService = tourImagesService;
+        this.tourImagesService = tourImagesService; 
         
     }
     
@@ -125,23 +125,23 @@ public class TourController {
       }
     }
 
-    @GetMapping("/tour/edit/{id}")
-    public String showEditTourForm(@PathVariable("id") int id, Model model) {
-        Tour tour = tourService.getTourById(id);
+    @GetMapping("/tour/edit/{tourId}")
+    public String showEditTourForm(@PathVariable("tourId") int tourId, Model model) {
+        Tour tour = tourService.getTourById(tourId);
         if (tour != null) {
             model.addAttribute("tour", tour);
             return "tour-edit";
         } else {
-            return "redirect:/"; // або відобразити повідомлення про помилку
+            return "redirect:/"; 
         }
     }
 
-    @PostMapping("/tour/edit/{id}")
-    public String editTour(@PathVariable("id") int id, @ModelAttribute Tour updatedTour, BindingResult bindingResult) {
+    @PostMapping("/tour/edit/{tourId}")
+    public String editTour(@PathVariable("tourId") int tourId, @ModelAttribute Tour updatedTour, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "redirect:/"; 
         } else {
-                tourService.updateTour(id, updatedTour);
+                tourService.updateTour(tourId, updatedTour);
                 return "redirect:/";
         }
     }

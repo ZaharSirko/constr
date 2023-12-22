@@ -85,7 +85,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/profile/{userName}")
-    public String getUserPrifile(@PathVariable String userName, Model model) {
+    public String getUserProfile(@PathVariable String userName, Model model) {
         User user = userService.getUserByUserName(userName);
         if (user != null) {
             model.addAttribute("user", user);
@@ -94,6 +94,26 @@ public class UserController {
             return "user-profile"; 
     }
 
+    @GetMapping(value = "/profile/{userName}/edit")
+    public String getUserProfileEdit(@PathVariable String userName, Model model) {
+        User user = userService.getUserByUserName(userName);
+        if (user != null) {
+            model.addAttribute("user", user);
+        } else {
+        }
+            return "user-profile-edit"; 
+    }
+    @PostMapping("/profile/{userName}/edit")
+    public String editUser(@PathVariable("userName") String userName, @ModelAttribute("updatedUser") User updatedUser) {
+        boolean isUpdated = userService.updateTour(userName, updatedUser);
+
+        if (isUpdated) {
+            return "redirect:/profile/" + userName; 
+        } else {
+ 
+            return "redirect:/error"; 
+        }
+    }
 
 }
 

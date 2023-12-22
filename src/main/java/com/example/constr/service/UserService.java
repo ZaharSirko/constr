@@ -120,4 +120,19 @@ public class UserService implements UserDetailsService  {
         user.setCurrency(newBalance);
         userRepository.save(user);
     }
-}
+
+    public boolean updateTour(String userName, User updatedUser) {
+        User existingUser = userRepository.findByUsername(userName);
+        if (existingUser != null) {
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setSecondName(updatedUser.getSecondName());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+            userRepository.save(existingUser); 
+            return true;
+        }
+        return false;
+    }
+    
+    }
+    

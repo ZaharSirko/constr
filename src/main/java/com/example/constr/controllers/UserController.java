@@ -105,7 +105,7 @@ public class UserController {
     }
     @PostMapping("/profile/{userName}/edit")
     public String editUser(@PathVariable("userName") String userName, @ModelAttribute("updatedUser") User updatedUser) {
-        boolean isUpdated = userService.updateTour(userName, updatedUser);
+        boolean isUpdated = userService.updateUser(userName, updatedUser);
 
         if (isUpdated) {
             return "redirect:/profile/" + userName; 

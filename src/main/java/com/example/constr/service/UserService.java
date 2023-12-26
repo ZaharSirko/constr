@@ -121,7 +121,7 @@ public class UserService implements UserDetailsService  {
         userRepository.save(user);
     }
 
-    public boolean updateTour(String userName, User updatedUser) {
+    public boolean updateUser(String userName, User updatedUser) {
         User existingUser = userRepository.findByUsername(userName);
         if (existingUser != null) {
             existingUser.setFirstName(updatedUser.getFirstName());

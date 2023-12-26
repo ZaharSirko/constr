@@ -146,7 +146,7 @@ public class TourController {
         }
     }
 
-    @GetMapping("/tour/delete/{id}")
+    @PostMapping("/tour/delete/{id}")
     public String deleteTour(@PathVariable("id") int id) {
         tourService.deleteTourById(id); 
         return "redirect:/"; 
